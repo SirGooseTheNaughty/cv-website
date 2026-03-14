@@ -1,0 +1,25 @@
+.heading {
+    font-family: Switzer;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+}
+
+.heading.h2 {
+    font-size: 5.875em;
+}
+
+.heading.h3 {
+    font-size: 2em;
+}
+
+.text {
+    font-size: 1em;
+}
+
+.text.small {
+    font-size:  0.875em;
+}

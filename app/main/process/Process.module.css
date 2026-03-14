@@ -1,0 +1,40 @@
+.processStep {
+    width: 100%;
+    aspect-ratio: 25 / 26;
+    max-height: 50vh;
+    display: flex;
+    flex-flow: column;
+    padding: 2em;
+    gap: 1.5em;
+    background-color: var(--color-bg-2);
+    border-radius: 3em;
+}
+
+.processStep.colored {
+    border-radius: 0.25em;
+}
+
+.processStep.colored.orange {
+    background-color: #FB8C67;
+}
+
+.processStep.colored.green {
+    background-color: #C1D5A7;
+}
+
+.processStep.colored.blue {
+    background-color: #CAD6FF;
+}
+
+.processStepTitle {
+    font-size: 2em;
+    margin-top: auto;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1;
+}
+
+.processStartIcon {
+    width: 11em;
+    transform: translateY(-30%);
+}

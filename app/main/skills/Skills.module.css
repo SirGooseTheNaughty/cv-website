@@ -1,0 +1,44 @@
+.skillsGrid {
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr 4fr;
+    grid-gap: 1em;
+    padding: 0.8em 0;
+    align-items: center;
+}
+
+.skillsRow {
+    border-top: 1px solid var(--color-border);
+}
+
+.skillsRow:last-of-type {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.skillLevel {
+    display: flex;
+    gap: 0.25em;
+
+    div {
+        flex-shrink: 0;
+        width: 0.25em;
+        height: 0.25em;
+        background-color: var(--color-accent);
+    }
+}
+
+.skillLevelDot {
+    width: 0.25em;
+    height: 0.25em;
+    background-color: currentColor;
+    opacity: 0.3;
+}
+
+.skillLevelDotActive {
+    opacity: 1;
+}
+
+.skillAlsoEntry {
+    padding: 0.25em 0.5em;
+    border-radius: 1em;
+    border: 1px solid currentColor;
+}

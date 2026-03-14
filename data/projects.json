@@ -1,0 +1,108 @@
+[
+  {
+    "slug": "darina-cg",
+    "title": "Darina CG artist",
+    "type": "Portfolio Website",
+    "featured": true,
+    "isFreelance": true,
+    "image": "darina-cg/cover.png",
+    "year": "2023",
+    "team": "Duoed with my favourite web-designer",
+    "role": "developer",
+    "timeSpent": "2 months",
+    "liveUrl": "https://www.darina-cg.com/",
+    "goal": "to create a neat awwwards-level portfolio that would highlight client’s work instead of drawing user’s attention away from it",
+    "tasks": [
+        "Emphasize the elitizm of client’s services without going over the top",
+        "Keep the website lightweight given hi-res imagery",
+        "Make website’s content easily editable by the client",
+        "Use best SEO practises"
+    ],
+    "solutions": [
+        "Webflow as a platform to ease website support via it’s CMS",
+        "Stick to pure CSS and JS animations as much as possible to keep the asset weight to the minimum",
+        "Lazy-load all non-crucial assets to achive faster loading",
+        "Use page transition animation to create a feeling of smooth and swift navigation",
+        "Utilize all HTML5 and ARIA capabilities and CSS performance optimization techniques to improve accessibility, user experience and SEO"
+    ],
+    "technologies": [
+        "Webflow",
+        "CSS",
+        "JavaScript",
+        "AWS",
+        "Webpack"
+    ],
+    "gallery": [
+        "darina-cg/g-1.png",
+        "darina-cg/g-2.png",
+        "darina-cg/g-3.png"
+    ],
+    "achievements": [
+        {
+            "value": "Site of the Day",
+            "description": "Awwwards"
+        },
+        {
+            "value": "Site of the day",
+            "description": "CSSDA"
+        },
+        {
+            "value": "Developer Award",
+            "description": "Awwwards"
+        }
+    ]
+  },
+  {
+    "slug": "eln",
+    "title": "Electronic Lab Notebook",
+    "type": "SaaS",
+    "featured": true,
+    "isFreelance": false,
+    "image": "eln/cover.png",
+    "year": "2022-2024",
+    "team": "6-10 people, cross-functional",
+    "role": "key frontend developer, fullstack developer",
+    "timeSpent": "too many sprints to reckon",
+    "liveUrl": "https://www.darina-cg.com/",
+    "goal": "to create a neat awwwards-level portfolio that would highlight client’s work instead of drawing user’s attention away from it",
+    "tasks": [
+        "Emphasize the elitizm of client’s services without going over the top",
+        "Keep the website lightweight given hi-res imagery",
+        "Make website’s content easily editable by the client",
+        "Use best SEO practises"
+    ],
+    "solutions": [
+        "Webflow as a platform to ease website support via it’s CMS",
+        "Stick to pure CSS and JS animations as much as possible to keep the asset weight to the minimum",
+        "Lazy-load all non-crucial assets to achive faster loading",
+        "Use page transition animation to create a feeling of smooth and swift navigation",
+        "Utilize all HTML5 and ARIA capabilities and CSS performance optimization techniques to improve accessibility, user experience and SEO"
+    ],
+    "technologies": [
+        "Webflow",
+        "CSS",
+        "JavaScript",
+        "AWS",
+        "Webpack"
+    ],
+    "gallery": [
+        "darina-cg/g-1.png",
+        "darina-cg/g-2.png",
+        "darina-cg/g-3.png"
+    ],
+    "achievements": [
+        {
+            "value": "Site of the Day",
+            "description": "Awwwards"
+        },
+        {
+            "value": "Site of the day",
+            "description": "CSSDA"
+        },
+        {
+            "value": "Developer Award",
+            "description": "Awwwards"
+        }
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+.projectTitle {
+    font-size: 2.875em;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+}
+
+.projectCard:nth-child(even) > *:first-child {
+    order: 2;
+}
+
+.projectHeader {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5em;
+}
+
+.projectIcon {
+    width: 2.5em;
+    height: 2.5em;
+    color: var(--color-accent);
+}
+
+.projectChar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 0;
+    border-top: 1px solid var(--color-stroke);
+}
+
+.projectChar:last-child {
+    border-bottom: 1px solid var(--color-stroke);
+}
