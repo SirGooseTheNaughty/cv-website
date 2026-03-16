@@ -7,9 +7,48 @@ const path = require('path');
 const fs = require('fs');
 const execAsync = util.promisify(exec);
 
+function loadDotEnv() {
+  const envPath = path.join(process.cwd(), '.env');
+
+  if (!fs.existsSync(envPath)) {
+    return;
+  }
+
+  const envFile = fs.readFileSync(envPath, 'utf8');
+
+  for (const line of envFile.split(/\r?\n/)) {
+    const trimmedLine = line.trim();
+
+    if (!trimmedLine || trimmedLine.startsWith('#')) {
+      continue;
+    }
+
+    const separatorIndex = trimmedLine.indexOf('=');
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = trimmedLine.slice(0, separatorIndex).trim();
+    const value = trimmedLine.slice(separatorIndex + 1).trim();
+
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  }
+
+  if (process.env.TELEGRAM_BOT_TOKEN && !process.env.TF_VAR_telegram_bot_token) {
+    process.env.TF_VAR_telegram_bot_token = process.env.TELEGRAM_BOT_TOKEN;
+  }
+
+  if (process.env.TELEGRAM_CHAT_ID && !process.env.TF_VAR_telegram_chat_id) {
+    process.env.TF_VAR_telegram_chat_id = process.env.TELEGRAM_CHAT_ID;
+  }
+}
+
 async function deployWithTerraform() {
   try {
     console.log('🚀 Deploying CV Website with Terraform\n');
+    loadDotEnv();
     
     // Always build fresh for deployment
     console.log('📦 Building Next.js application...');

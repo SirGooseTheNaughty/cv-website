@@ -1,0 +1,8 @@
+{
+  "name": "cv-website-form-lambda",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "telegraf": "^4.16.3"
+  }
+}
