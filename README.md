@@ -16,6 +16,21 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### Local form API in development
+
+The contact form uses this endpoint priority:
+
+1. `NEXT_PUBLIC_FORM_API_URL` (if set)
+2. `http://localhost:3001/form` in development
+3. `/api/form` in production
+
+Create a local env file and set the dev API URL if needed:
+
+```bash
+# .env.local
+NEXT_PUBLIC_FORM_API_URL=http://localhost:3001/form
+```
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

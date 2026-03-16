@@ -1,171 +1,27 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: sirgoose
-service: cv-website
+service: cv-website-local-api
 
 provider:
   name: aws
   runtime: nodejs22.x
   region: eu-west-1
-  profile: studio
-  stage: ${opt:stage,'dev'}
-  
-custom:
-  # Generate unique bucket name
-  bucketName: ${self:service}-${self:provider.stage}
-  
-  # Custom domain configuration
-  # Replace 'your-domain.com' with your actual domain
-  customDomain: sergey-v.com
-  
-  # SSL Certificate ARN - MUST be in us-east-1 for CloudFront
-  # You'll need to recreate this certificate in us-east-1 region
-  certificateArn: arn:aws:acm:us-east-1:262043365598:certificate/b24c44f1-672f-428e-b292-9d632253f29f
-  
-  # CloudFront distribution configuration
-  distributionConfig:
-    Origins:
-      - Id: S3Origin
-        DomainName: ${self:custom.bucketName}.s3.amazonaws.com
-        S3OriginConfig:
-          OriginAccessIdentity: ""
-    Enabled: true
-    DefaultRootObject: index.html
-    CustomErrorResponses:
-      - ErrorCode: 404
-        ResponseCode: 200
-        ResponsePagePath: /index.html  # For SPA routing
-      - ErrorCode: 403
-        ResponseCode: 200
-        ResponsePagePath: /index.html
-    DefaultCacheBehavior:
-      TargetOriginId: S3Origin
-      ViewerProtocolPolicy: redirect-to-https
-      AllowedMethods:
-        - GET
-        - HEAD
-      Compress: true
-      ForwardedValues:
-        QueryString: false
-        Cookies:
-          Forward: none
-    PriceClass: PriceClass_100  # Use only North America and Europe edge locations
-    ViewerCertificate:
-      CloudFrontDefaultCertificate: true
-      
-  s3Sync:
-    - bucketName: ${self:custom.bucketName}
-      localDir: out  # Next.js static export directory
-      acl: public-read
-      followSymlinks: true
-      defaultContentType: text/html
-      params:
-        - match: "**/*.html"
-          cacheControl: "public, max-age=0, s-maxage=86400, must-revalidate"
-        - match: "**/*.css"
-          cacheControl: "public, max-age=31536000, immutable"
-        - match: "**/*.js"
-          cacheControl: "public, max-age=31536000, immutable"
-        - match: "**/*.{png,jpg,jpeg,gif,ico,svg,webp}"
-          cacheControl: "public, max-age=31536000, immutable"
-        - match: "**/*.{woff,woff2,ttf,otf}"
-          cacheControl: "public, max-age=31536000, immutable"
+  stage: ${opt:stage, 'dev'}
+  environment:
+    TELEGRAM_BOT_TOKEN: ${env:TELEGRAM_BOT_TOKEN, ''}
+    TELEGRAM_CHAT_ID: ${env:TELEGRAM_CHAT_ID, ''}
 
-resources:
-  Resources:
-    # S3 Bucket for static website hosting
-    WebsiteBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:custom.bucketName}
-        PublicAccessBlockConfiguration:
-          BlockPublicAcls: false
-          BlockPublicPolicy: false
-          IgnorePublicAcls: false
-          RestrictPublicBuckets: false
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: index.html
-
-    # S3 Bucket Policy for CloudFront access
-    WebsiteBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: !Ref WebsiteBucket
-        PolicyDocument:
-          Statement:
-            - Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: arn:aws:s3:::${self:custom.bucketName}/*
-
-    # CloudFront Distribution
-    WebsiteDistribution:
-      Type: AWS::CloudFront::Distribution
-      Properties:
-        DistributionConfig:
-          Origins:
-            - Id: S3Origin
-              DomainName: !GetAtt WebsiteBucket.RegionalDomainName
-              S3OriginConfig:
-                OriginAccessIdentity: ""
-          Enabled: true
-          DefaultRootObject: index.html
-          CustomErrorResponses:
-            - ErrorCode: 404
-              ResponseCode: 200
-              ResponsePagePath: /index.html
-            - ErrorCode: 403
-              ResponseCode: 200
-              ResponsePagePath: /index.html
-          DefaultCacheBehavior:
-            TargetOriginId: S3Origin
-            ViewerProtocolPolicy: redirect-to-https
-            AllowedMethods:
-              - GET
-              - HEAD
-              - OPTIONS
-            CachedMethods:
-              - GET
-              - HEAD
-            Compress: true
-            ForwardedValues:
-              QueryString: false
-              Cookies:
-                Forward: none
-            # Cache static assets longer
-            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad  # CachingDisabled
-          PriceClass: PriceClass_100
-          ViewerCertificate:
-            AcmCertificateArn: ${self:custom.certificateArn}
-            SslSupportMethod: sni-only
-            MinimumProtocolVersion: TLSv1.2_2021
-          Aliases:
-            - ${self:custom.customDomain}
-
-  Outputs:
-    WebsiteURL:
-      Description: URL of the website
-      Value: !Sub 'https://${self:custom.customDomain}'
-      Export:
-        Name: ${self:service}-url
-    
-    CloudFrontURL:
-      Description: CloudFront Distribution URL
-      Value: !Sub 'https://${WebsiteDistribution.DomainName}'
-      Export:
-        Name: ${self:service}-cloudfront-url
-    
-    BucketName:
-      Description: Name of the S3 bucket
-      Value: !Ref WebsiteBucket
-      Export:
-        Name: ${self:service}-bucket
-    
-    DistributionId:
-      Description: CloudFront Distribution ID
-      Value: !Ref WebsiteDistribution
-      Export:
-        Name: ${self:service}-distribution-id
+functions:
+  form:
+    handler: lambda/form/index.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /form
+          method: any
 
 plugins:
-  - serverless-s3-sync
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3001
+    noPrependStageInUrl: true
