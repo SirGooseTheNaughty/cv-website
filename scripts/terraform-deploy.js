@@ -79,7 +79,7 @@ async function deployWithTerraform() {
     
     // Upload main index.html
     await execAsync(`aws s3 cp .next/server/app/index.html s3://${bucketName}/index.html --content-type "text/html" --profile studio`);
-    
+
     // Upload fonts if they exist
     if (fs.existsSync(path.join(process.cwd(), 'public/fonts'))) {
       await execAsync(`aws s3 sync public/fonts s3://${bucketName}/fonts --profile studio`);
