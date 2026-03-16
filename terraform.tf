@@ -181,7 +181,7 @@ resource "aws_apigatewayv2_integration" "form_api" {
 
 resource "aws_apigatewayv2_route" "form_api" {
   api_id    = aws_apigatewayv2_api.cv_api.id
-  route_key = "ANY /form"
+  route_key = "ANY /api/form"
   target    = "integrations/${aws_apigatewayv2_integration.form_api.id}"
 }
 
@@ -286,9 +286,9 @@ resource "aws_cloudfront_distribution" "cv_website" {
 
     forwarded_values {
       query_string = true
-      headers      = ["*"]
+      headers      = ["Authorization", "Content-Type"]
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
@@ -317,7 +317,7 @@ resource "aws_cloudfront_distribution" "cv_website" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
     # Uncomment when you have SSL certificate in us-east-1
     acm_certificate_arn      = "arn:aws:acm:us-east-1:262043365598:certificate/b24c44f1-672f-428e-b292-9d632253f29f"
     ssl_support_method       = "sni-only"
@@ -332,8 +332,8 @@ resource "aws_cloudfront_distribution" "cv_website" {
 
 # Outputs
 output "website_url" {
-  description = "CloudFront distribution URL"
-  value       = "https://${aws_cloudfront_distribution.cv_website.domain_name}"
+  description = "Primary website URL"
+  value       = "https://${var.domain_name}"
 }
 
 output "s3_bucket_name" {
